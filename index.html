@@ -3,65 +3,621 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>P2P 및 웹하드 순위 비교 가이드</title>
-    <link rel="stylesheet" href="style.css">
+    <title>p2p사이트 순위 2026 | 노제휴 웹하드 비교 - 놈파일 스타일 데모</title>
+
+    <!-- Pretendard Web Font -->
+    <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" />
+
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <style>
+        :root {
+            --primary: #365bfa;
+            --primary-hover: #2b49cc;
+            --bg: #f8fafc;
+            --card-bg: #ffffff;
+            --text-main: #0f172a;
+            --text-sub: #64748b;
+            --border: #e2e8f0;
+            --badge-new: #eff6ff;
+            --badge-new-text: #2563eb;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: "Pretendard Variable", Pretendard, -apple-system, BlinkMacSystemFont, system-ui, Roboto, sans-serif;
+        }
+
+        body {
+            background-color: var(--bg);
+            color: var(--text-main);
+            min-height: 100vh;
+        }
+
+        /* Header */
+        .header {
+            background: #ffffff;
+            border-bottom: 1px solid var(--border);
+            position: sticky;
+            top: 0;
+            z-index: 50;
+        }
+
+        .header-inner {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 14px 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .brand {
+            font-size: 1.4rem;
+            font-weight: 800;
+            color: var(--primary);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 24px;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--text-main);
+            font-size: 0.95rem;
+            font-weight: 600;
+        }
+
+        .nav-links a.active {
+            color: var(--primary);
+        }
+
+        .header-search {
+            display: flex;
+            align-items: center;
+            background: var(--bg);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 6px 12px;
+        }
+
+        .header-search input {
+            border: none;
+            background: transparent;
+            outline: none;
+            font-size: 0.85rem;
+            width: 150px;
+        }
+
+        /* Main Layout */
+        .main-container {
+            max-width: 1200px;
+            margin: 30px auto;
+            padding: 0 20px;
+            display: grid;
+            grid-template-columns: 1fr 320px;
+            gap: 30px;
+        }
+
+        @media (max-width: 992px) {
+            .main-container {
+                grid-template-columns: 1fr;
+            }
+            .nav-links { display: none; }
+        }
+
+        /* Hero Banner */
+        .hero-banner {
+            background: linear-gradient(135deg, #ffffff 0%, #f1f5f9 100%);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 28px;
+            margin-bottom: 24px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-banner h1 {
+            font-size: 1.6rem;
+            font-weight: 800;
+            margin-bottom: 8px;
+        }
+
+        .hero-banner p {
+            color: var(--text-sub);
+            font-size: 0.95rem;
+            margin-bottom: 16px;
+        }
+
+        .hero-pills {
+            display: flex;
+            gap: 8px;
+        }
+
+        .hero-pill {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            background: #ffffff;
+            border: 1px solid var(--border);
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            color: var(--text-sub);
+        }
+
+        /* Vendor Catalog Grid */
+        .catalog-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .vendor-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 14px;
+            padding: 20px;
+            position: relative;
+            transition: all 0.2s ease;
+        }
+
+        .vendor-card:hover {
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.05);
+            border-color: #cbd5e1;
+        }
+
+        .vendor-card.top-1 { border-left: 4px solid #ef4444; }
+        .vendor-card.top-2 { border-left: 4px solid #f59e0b; }
+        .vendor-card.top-3 { border-left: 4px solid #3b82f6; }
+
+        .recommend-ribbon {
+            position: absolute;
+            top: 0;
+            right: 20px;
+            background: var(--primary);
+            color: white;
+            font-size: 0.75rem;
+            font-weight: 700;
+            padding: 4px 10px;
+            border-bottom-left-radius: 6px;
+            border-bottom-right-radius: 6px;
+        }
+
+        .card-header {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            margin-bottom: 16px;
+        }
+
+        .rank-emblem {
+            font-size: 1.1rem;
+            font-weight: 900;
+            width: 32px;
+            height: 32px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #f1f5f9;
+        }
+
+        .top-1 .rank-emblem { background: #fee2e2; color: #dc2626; }
+        .top-2 .rank-emblem { background: #fef3c7; color: #d97706; }
+        .top-3 .rank-emblem { background: #dbeafe; color: #2563eb; }
+
+        .vendor-title {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .vendor-title h2 {
+            font-size: 1.2rem;
+            font-weight: 700;
+        }
+
+        .badge-new {
+            background: var(--badge-new);
+            color: var(--badge-new-text);
+            font-size: 0.7rem;
+            font-weight: 700;
+            padding: 2px 6px;
+            border-radius: 4px;
+            display: inline-flex;
+            align-items: center;
+            gap: 2px;
+        }
+
+        .vendor-summary {
+            font-size: 0.85rem;
+            color: var(--text-sub);
+            margin-top: 2px;
+        }
+
+        /* Vendor Facts Table */
+        .vendor-facts {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 12px;
+            background: #f8fafc;
+            padding: 12px 16px;
+            border-radius: 8px;
+            margin-bottom: 16px;
+        }
+
+        .fact-item {
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+        }
+
+        .fact-label {
+            font-size: 0.75rem;
+            color: var(--text-sub);
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .fact-value {
+            font-size: 0.85rem;
+            font-weight: 600;
+        }
+
+        /* Actions & Coupon */
+        .card-actions {
+            display: flex;
+            justify-content: flex-end;
+            gap: 10px;
+        }
+
+        .btn-coupon {
+            background: #ffffff;
+            border: 1px solid var(--border);
+            color: var(--text-main);
+            padding: 8px 14px;
+            border-radius: 8px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .btn-coupon:hover { background: #f1f5f9; }
+
+        .btn-link {
+            background: var(--primary);
+            color: #ffffff;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 8px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .btn-link:hover { background: var(--primary-hover); }
+
+        .coupon-panel {
+            display: none;
+            margin-top: 12px;
+            padding: 12px;
+            background: #fffbe0;
+            border: 1px dashed #f59e0b;
+            border-radius: 8px;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .coupon-panel.active { display: flex; }
+
+        .coupon-code {
+            font-weight: 800;
+            font-family: monospace;
+            color: #b45309;
+        }
+
+        /* Sidebar Stats */
+        .stats-sidebar {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .sidebar-card {
+            background: #ffffff;
+            border: 1px solid var(--border);
+            border-radius: 14px;
+            padding: 20px;
+        }
+
+        .sidebar-title {
+            font-size: 0.95rem;
+            font-weight: 800;
+            margin-bottom: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .live-badge {
+            font-size: 0.7rem;
+            background: #ecfdf5;
+            color: #10b981;
+            padding: 2px 8px;
+            border-radius: 10px;
+            font-weight: 700;
+        }
+
+        .metrics-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+        }
+
+        .metric-box {
+            background: var(--bg);
+            padding: 10px;
+            border-radius: 8px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .metric-label { font-size: 0.75rem; color: var(--text-sub); }
+        .metric-value { font-size: 1.1rem; font-weight: 800; color: var(--primary); }
+
+        .click-rank-list {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .click-rank-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            font-size: 0.85rem;
+        }
+
+        .click-rank-info { display: flex; align-items: center; gap: 8px; }
+        .click-rank-num { font-weight: 800; color: var(--text-sub); width: 16px; }
+        .click-count { font-weight: 700; color: var(--text-main); }
+    </style>
 </head>
 <body>
 
-<div class="container">
+    <!-- Header -->
     <header class="header">
-        <h1>p2p사이트 순위 2026년 최신 가이드</h1>
-        <p>노제휴 웹하드와 신규 사이트의 오픈일 및 가입 혜택을 비교해보세요.</p>
+        <div class="header-inner">
+            <a href="#" class="brand">
+                <i data-lucide="file-search"></i> 놈파일
+            </a>
+            <nav class="nav-links">
+                <a href="#" class="active">P2P사이트 순위</a>
+                <a href="#">웹하드 순위</a>
+                <a href="#">노제휴 웹하드</a>
+                <a href="#">P2P사이트 추천</a>
+            </nav>
+            <form class="header-search" onsubmit="return false;">
+                <input type="text" placeholder="사이트 이름 검색">
+                <i data-lucide="search" size="16"></i>
+            </form>
+        </div>
     </header>
 
-    <main class="card-list">
-        <!-- 1위 업체 -->
-        <article class="card">
-            <div class="rank-badge rank-1">1</div>
-            <div class="info">
-                <h2>밤파일 <span class="badge-new">NEW</span></h2>
-                <p class="summary">최신 노제휴 웹하드 사이트</p>
-                <div class="details">
-                    <span>📅 오픈일: 2026년 9월</span>
-                    <span>🎁 혜택: 가입시 3000p 즉시 증정</span>
+    <!-- Main Container -->
+    <div class="main-container">
+        
+        <!-- Main Content -->
+        <main>
+            <!-- Hero Banner -->
+            <section class="hero-banner">
+                <h1>p2p사이트 순위 2026년 최신 가이드</h1>
+                <p>노제휴 웹하드와 신규 사이트의 오픈일·가입 혜택·이벤트를 동일한 기준에서 비교해 보세요.</p>
+                <div class="hero-pills">
+                    <span class="hero-pill"><i data-lucide="calendar" size="14"></i> 오픈일 비교</span>
+                    <span class="hero-pill"><i data-lucide="gift" size="14"></i> 무료 포인트</span>
+                    <span class="hero-pill"><i data-lucide="sparkles" size="14"></i> 신규 노제휴</span>
+                </div>
+            </section>
+
+            <!-- Catalog List -->
+            <div class="catalog-grid">
+                
+                <!-- 1위 Card -->
+                <article class="vendor-card top-1">
+                    <span class="recommend-ribbon">추천</span>
+                    <div class="card-header">
+                        <div class="rank-emblem">1</div>
+                        <div>
+                            <div class="vendor-title">
+                                <h2>밤파일</h2>
+                                <span class="badge-new"><i data-lucide="sparkles" size="10"></i> NEW</span>
+                            </div>
+                            <p class="vendor-summary">최신 노제휴 웹하드 사이트</p>
+                        </div>
+                    </div>
+                    <div class="vendor-facts">
+                        <div class="fact-item">
+                            <span class="fact-label"><i data-lucide="calendar" size="12"></i> 오픈일</span>
+                            <span class="fact-value">2026년 9월</span>
+                        </div>
+                        <div class="fact-item">
+                            <span class="fact-label"><i data-lucide="gift" size="12"></i> 혜택</span>
+                            <span class="fact-value">가입시 3,000P 바로 증정</span>
+                        </div>
+                        <div class="fact-item">
+                            <span class="fact-label"><i data-lucide="check-square" size="12"></i> 이벤트</span>
+                            <span class="fact-value">모든 자료 노제휴</span>
+                        </div>
+                    </div>
+                    <div class="card-actions">
+                        <a href="https://www.bamfile.co.kr" target="_blank" class="btn-link">
+                            사이트 바로가기 <i data-lucide="arrow-right" size="14"></i>
+                        </a>
+                    </div>
+                </article>
+
+                <!-- 2위 Card (쿠폰 포함) -->
+                <article class="vendor-card top-2">
+                    <span class="recommend-ribbon">추천</span>
+                    <div class="card-header">
+                        <div class="rank-emblem">2</div>
+                        <div>
+                            <div class="vendor-title">
+                                <h2>꿀파일</h2>
+                            </div>
+                            <p class="vendor-summary">첫 결제 없이 노제휴 콘텐츠 이용 가능</p>
+                        </div>
+                    </div>
+                    <div class="vendor-facts">
+                        <div class="fact-item">
+                            <span class="fact-label"><i data-lucide="calendar" size="12"></i> 오픈일</span>
+                            <span class="fact-value">2024년 11월</span>
+                        </div>
+                        <div class="fact-item">
+                            <span class="fact-label"><i data-lucide="gift" size="12"></i> 혜택</span>
+                            <span class="fact-value">가입 시 50,000MB 지급</span>
+                        </div>
+                        <div class="fact-item">
+                            <span class="fact-label"><i data-lucide="check-square" size="12"></i> 이벤트</span>
+                            <span class="fact-value">무료 포인트 쿠폰 제공</span>
+                        </div>
+                    </div>
+                    <div class="card-actions">
+                        <button class="btn-coupon" onclick="toggleCoupon('coupon-ggul')">
+                            <i data-lucide="ticket" size="14"></i> 쿠폰 받기
+                        </button>
+                        <a href="https://ggulfile.com" target="_blank" class="btn-link">
+                            사이트 바로가기 <i data-lucide="arrow-right" size="14"></i>
+                        </a>
+                    </div>
+                    <!-- 쿠폰 번호 영역 -->
+                    <div id="coupon-ggul" class="coupon-panel">
+                        <span>쿠폰번호: <strong class="coupon-code">7904595393700</strong></span>
+                        <button class="btn-coupon" onclick="copyCoupon('7904595393700')">복사</button>
+                    </div>
+                </article>
+
+                <!-- 3위 Card -->
+                <article class="vendor-card top-3">
+                    <div class="card-header">
+                        <div class="rank-emblem">3</div>
+                        <div>
+                            <div class="vendor-title">
+                                <h2>지니파일</h2>
+                            </div>
+                            <p class="vendor-summary">신규 노제휴 사이트 추천</p>
+                        </div>
+                    </div>
+                    <div class="vendor-facts">
+                        <div class="fact-item">
+                            <span class="fact-label"><i data-lucide="calendar" size="12"></i> 오픈일</span>
+                            <span class="fact-value">2024년 12월</span>
+                        </div>
+                        <div class="fact-item">
+                            <span class="fact-label"><i data-lucide="gift" size="12"></i> 혜택</span>
+                            <span class="fact-value">가입 시 3,000P 지급</span>
+                        </div>
+                        <div class="fact-item">
+                            <span class="fact-label"><i data-lucide="check-square" size="12"></i> 이벤트</span>
+                            <span class="fact-value">신규 등록 혜택 제공</span>
+                        </div>
+                    </div>
+                    <div class="card-actions">
+                        <a href="https://geniefile.com" target="_blank" class="btn-link">
+                            사이트 바로가기 <i data-lucide="arrow-right" size="14"></i>
+                        </a>
+                    </div>
+                </article>
+
+            </div>
+        </main>
+
+        <!-- Sidebar -->
+        <aside class="stats-sidebar">
+            <div class="sidebar-card">
+                <div class="sidebar-title">
+                    <span>NOMFILE LIVE</span>
+                    <span class="live-badge">● 30초 갱신</span>
+                </div>
+                <div class="metrics-grid">
+                    <div class="metric-box">
+                        <span class="metric-label">등록 사이트</span>
+                        <span class="metric-value">8개</span>
+                    </div>
+                    <div class="metric-box">
+                        <span class="metric-label">오늘 방문자</span>
+                        <span class="metric-value" id="today-visitors">146</span>
+                    </div>
                 </div>
             </div>
-            <a href="https://www.bamfile.co.kr" target="_blank" class="btn-action">사이트 바로가기</a>
-        </article>
 
-        <!-- 2위 업체 -->
-        <article class="card">
-            <div class="rank-badge rank-2">2</div>
-            <div class="info">
-                <h2>꿀파일</h2>
-                <p class="summary">첫 결제 없이 노제휴 콘텐츠 이용 가능</p>
-                <div class="details">
-                    <span>📅 오픈일: 2024년 11월</span>
-                    <span>🎁 혜택: 가입 시 50,000MB 지급</span>
+            <div class="sidebar-card">
+                <div class="sidebar-title">
+                    <span>실시간 클릭 순위</span>
                 </div>
+                <ul class="click-rank-list">
+                    <li class="click-rank-item">
+                        <div class="click-rank-info">
+                            <span class="click-rank-num" style="color:#ef4444">1</span>
+                            <span>밤파일</span>
+                        </div>
+                        <span class="click-count">31회</span>
+                    </li>
+                    <li class="click-rank-item">
+                        <div class="click-rank-info">
+                            <span class="click-rank-num" style="color:#f59e0b">2</span>
+                            <span>꿀파일</span>
+                        </div>
+                        <span class="click-count">18회</span>
+                    </li>
+                    <li class="click-rank-item">
+                        <div class="click-rank-info">
+                            <span class="click-rank-num" style="color:#3b82f6">3</span>
+                            <span>지니파일</span>
+                        </div>
+                        <span class="click-count">12회</span>
+                    </li>
+                </ul>
             </div>
-            <a href="https://ggulfile.com" target="_blank" class="btn-action">사이트 바로가기</a>
-        </article>
+        </aside>
 
-        <!-- 3위 업체 -->
-        <article class="card">
-            <div class="rank-badge rank-3">3</div>
-            <div class="info">
-                <h2>지니파일</h2>
-                <p class="summary">신규 노제휴 사이트 추천</p>
-                <div class="details">
-                    <span>📅 오픈일: 2024년 12월</span>
-                    <span>🎁 혜택: 가입 시 3,000P 지급</span>
-                </div>
-            </div>
-            <a href="https://geniefile.com" target="_blank" class="btn-action">사이트 바로가기</a>
-        </article>
-    </main>
+    </div>
 
-    <footer class="footer">
-        <p>© 2026 Comparison Guide. All rights reserved.</p>
-    </footer>
-</div>
+    <script>
+        // Lucide Icons Render
+        lucide.createIcons();
 
+        // Coupon Toggle
+        function toggleCoupon(id) {
+            const panel = document.getElementById(id);
+            panel.classList.toggle('active');
+        }
+
+        // Copy Coupon Code
+        function copyCoupon(code) {
+            navigator.clipboard.writeText(code).then(() => {
+                alert('쿠폰번호가 복사되었습니다: ' + code);
+            });
+        }
+    </script>
 </body>
 </html>
